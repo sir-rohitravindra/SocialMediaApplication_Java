@@ -6,7 +6,8 @@ public abstract class Page extends JFrame {
     protected JPanel headingPanel;
     protected int width_, height_;
     protected Status defaultStatus;
-    Status curStatus;
+    protected Status curStatus;
+    protected UserBuilder userBuilder;
 
     public Page(int w, int h, String headString, Status defaultStatus) {
         headingLabel = new JLabel(headString);
@@ -23,6 +24,8 @@ public abstract class Page extends JFrame {
     }
 
     public void activatePage() {
+
+        this.userBuilder = new UserBuilder();
         this.setVisible(true);
         this.setSize(width_, height_);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
