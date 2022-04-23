@@ -70,7 +70,7 @@ public class LoginPage extends Page {
     }
 
     public User getUserDetails() {
-        return new User(getUsername(), getPassword());
+        return userBuilder.cleanSlate().setUsername(getUsername()).setPassword(getPassword()).buildUser();
     }
 
 }

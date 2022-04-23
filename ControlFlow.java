@@ -16,7 +16,8 @@ public class ControlFlow {
 
     private ActionListenerFactory actionListenerFactory;
 
-    private Status cur_status;
+    // private Status cur_status;
+    private User curUser;
 
     public ControlFlow(LoginPage loginPage, SignupPage signupPage, DBHandler dbHandler) {
         this.loginPage = loginPage;
@@ -28,7 +29,7 @@ public class ControlFlow {
     }
 
     public void StartApplication() {
-        cur_status = Status.Login;
+        // cur_status = Status.Login;
         SetupLoginPage();
         SetupDBHandle();
         SetupSignupPage();
@@ -75,6 +76,8 @@ public class ControlFlow {
                 loginPage.butJPanel.add(new JLabel("Login Successfull!"));
                 loginPage.revalidate();
                 loginPage.repaint();
+
+                curUser = user;
             } else {
                 loginPage.butJPanel.add(new JLabel("Login Failed!"));
                 loginPage.revalidate();

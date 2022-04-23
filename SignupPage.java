@@ -15,6 +15,12 @@ public class SignupPage extends Page {
     JTextField nameEntry;
     JLabel nameText;
 
+    JRadioButton maleRadioButton;
+    JRadioButton femaleRadioButton;
+    JRadioButton helikopterRadioButton;
+    ButtonGroup genderButtonGroup;
+    JPanel genderJPanel;
+
     JTextArea bioEntry;
 
     // signup button
@@ -40,6 +46,18 @@ public class SignupPage extends Page {
         nameEntry = new JTextField(35);
         nameText = new JLabel("Name");
 
+        maleRadioButton = new JRadioButton("Male");
+        femaleRadioButton = new JRadioButton("Female");
+        helikopterRadioButton = new JRadioButton("Attack Helicopter");
+        genderButtonGroup = new ButtonGroup();
+        genderButtonGroup.add(maleRadioButton);
+        genderButtonGroup.add(femaleRadioButton);
+        genderButtonGroup.add(helikopterRadioButton);
+        genderJPanel = new JPanel();
+        genderJPanel.add(maleRadioButton);
+        genderJPanel.add(femaleRadioButton);
+        genderJPanel.add(helikopterRadioButton);
+
         bioEntry = new JTextArea("Tell us about yourself!");
         JScrollPane bioJScrollPane = new JScrollPane(bioEntry);
 
@@ -55,6 +73,7 @@ public class SignupPage extends Page {
         formJPanel.add(nameText);
         formJPanel.add(nameEntry);
 
+        formJPanel.add(genderJPanel);
         formJPanel.add(bioJScrollPane);
 
         formJPanel.add(signupButton);
@@ -88,8 +107,20 @@ public class SignupPage extends Page {
         return bioEntry.getText();
     }
 
+    public String getGender() {
+
+        if (maleRadioButton.isSelected()) {
+            return "M";
+        } else if (femaleRadioButton.isSelected()) {
+            return "F";
+        } else {
+            return "X";
+        }
+    }
+
     public User getUserDetails() {
-        return new User(getUsername(), getPassword());
+        return userBuilder.cleanSlate().setUsername(getUsername()).setPassword(getPassword()).setBio(getBio())
+                .setName(getName()).setGender(getGender()).buildUser();
     }
 
 }

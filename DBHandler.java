@@ -1,7 +1,5 @@
 import java.sql.*;
 
-import javax.management.Query;
-
 public class DBHandler {
 
     private Statement stmt;
@@ -48,8 +46,12 @@ public class DBHandler {
 
             String uname = user.getUsername();
             String password = user.getPassword();
-            String query = "INSERT INTO users (uname,password) "
-                    + "VALUES" + "( '" + uname + "','" + password + "');";
+            String name = user.getName();
+            String bio = user.getBio();
+            String gender = user.getGender();
+            String query = "INSERT INTO users (uname,password,name,gender,bio) "
+                    + "VALUES" + "( '" + uname + "','" + password + "','" + name + "','" + gender + "','" + bio
+                    + "');";
             stmt.executeUpdate(query);
             stmt.close();
             // c.commit();
@@ -61,35 +63,11 @@ public class DBHandler {
         }
     }
 
-    // public List<String> FetchData(String matchString) {
-    // List<String> Fetched = new ArrayList<String>();
-    // try {
-
-    // stmt = c.createStatement();
-    // ResultSet rs = stmt.executeQuery("SELECT * FROM movies where moviename like
-    // '%" + matchString + "%';");
-    // while (rs.next()) {
-    // String dispString = "Movie: " + rs.getString("moviename") + " Rating: " +
-    // rs.getFloat("ratings")
-    // + " Date: " + rs.getString("released");
-    // Fetched.add(dispString);
-    // }
-
-    // } catch (Exception e) {
-
-    // System.out.println(e);
-    // System.out.println("Model.FetchData failed");
-    // }
-
-    // return Fetched;
-
-    // }
-
     public boolean VerifyLogin(User user) {
 
         boolean exists = false;
         try {
-
+            System.out.println(user);
             stmt = c.createStatement();
             String uname = user.getUsername();
             String password = user.getPassword();
