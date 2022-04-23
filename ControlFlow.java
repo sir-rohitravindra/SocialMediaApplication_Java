@@ -11,6 +11,7 @@ enum Status {
 public class ControlFlow {
     private LoginPage loginPage;
     private SignupPage signupPage;
+    private PostsPage postsPage;
 
     private DBHandler dbHandler;
 
@@ -19,9 +20,10 @@ public class ControlFlow {
     // private Status cur_status;
     private User curUser;
 
-    public ControlFlow(LoginPage loginPage, SignupPage signupPage, DBHandler dbHandler) {
+    public ControlFlow(LoginPage loginPage, SignupPage signupPage, PostsPage postsPage, DBHandler dbHandler) {
         this.loginPage = loginPage;
         this.signupPage = signupPage;
+        this.postsPage = postsPage;
         this.dbHandler = dbHandler;
 
         actionListenerFactory = new ActionListenerFactory();
@@ -43,7 +45,13 @@ public class ControlFlow {
 
     public void LoadLoginPage() {
         signupPage.deactivatePage();
+        postsPage.deactivatePage();
         loginPage.activatePage();
+    }
+
+    public void LoadPostsPage() {
+        loginPage.deactivatePage();
+        postsPage.activatePage();
     }
 
     public void SetupLoginPage() {
@@ -73,11 +81,13 @@ public class ControlFlow {
 
             User user = loginPage.getUserDetails();
             if (dbHandler.VerifyLogin(user)) {
-                loginPage.butJPanel.add(new JLabel("Login Successfull!"));
-                loginPage.revalidate();
-                loginPage.repaint();
+                // loginPage.butJPanel.add(new JLabel("Login Successfull!"));
+                // loginPage.revalidate();
+                // loginPage.repaint();
+                LoadPostsPage();
+                curUser = dbHandler.getAccount(user.getUsername());
+                postsPage.setCurUser(curUser);
 
-                curUser = user;
             } else {
                 loginPage.butJPanel.add(new JLabel("Login Failed!"));
                 loginPage.revalidate();
