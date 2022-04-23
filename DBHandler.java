@@ -5,9 +5,12 @@ public class DBHandler {
     private Statement stmt;
     private Connection c;
     private ResultSet rs;
+    private UserBuilder userBuilder;
 
     public DBHandler() {
+        userBuilder = new UserBuilder();
         System.out.println("DB Handler is up!");
+
     }
 
     public void connectToDB() {
@@ -67,7 +70,7 @@ public class DBHandler {
 
         boolean exists = false;
         try {
-            System.out.println(user);
+            // System.out.println(user);
             stmt = c.createStatement();
             String uname = user.getUsername();
             String password = user.getPassword();
@@ -89,5 +92,37 @@ public class DBHandler {
 
         return exists;
 
+    }
+
+    public User getAccount(String uname) {
+
+        User curUser = null;
+
+        try {
+
+            String password = "";
+            String name = "";
+            String bio = "";
+            String gender = "";
+
+            stmt = c.createStatement();
+            String query = "select * from users where uname = '" + uname + "';";
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+
+                password = rs.getString("password");
+                name = rs.getString("name");
+                gender = rs.getString("gender");
+                bio = rs.getString("bio");
+            }
+            curUser = userBuilder.cleanSlate().setBio(bio).setGender(gender).setName(name).setPassword(password)
+                    .setUsername(uname).buildUser();
+
+        } catch (Exception e) {
+
+            System.out.println("DBHandler.getAccount failed! " + e);
+        }
+        return curUser;
     }
 }
