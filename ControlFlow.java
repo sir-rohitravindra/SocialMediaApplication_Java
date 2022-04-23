@@ -35,6 +35,7 @@ public class ControlFlow {
         SetupLoginPage();
         SetupDBHandle();
         SetupSignupPage();
+        SetupPostsPage();
         LoadLoginPage();
     }
 
@@ -66,6 +67,10 @@ public class ControlFlow {
     public void SetupSignupPage() {
         signupPage.AddLoginListener(actionListenerFactory.getActionListener("signup_login"));
         signupPage.AddSignupListener(actionListenerFactory.getActionListener("signup_signup"));
+    }
+
+    public void SetupPostsPage() {
+        postsPage.AddLogoutListener(actionListenerFactory.getActionListener("posts_logout"));
     }
 
     // action Handlers
@@ -149,6 +154,9 @@ public class ControlFlow {
                     return new HandleBackToLogin();
                 case "signup_signup":
                     return new CreateAccountListener();
+
+                case "posts_logout":
+                    return new HandleBackToLogin();
                 default:
                     return null;
             }
