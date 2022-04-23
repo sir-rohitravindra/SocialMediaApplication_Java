@@ -16,14 +16,18 @@ public class InstaMain {
         int postsWidth = (int) Screenwidth / 2;
         int postsHeight = (int) Screenheight - 100;
 
+        int profileWidth = 500;
+        int profileHeight = 300;
+
         LoginPage loginPage = new LoginPage(loginWidth, loginHeight, "Login Page", Status.Login);
         SignupPage signupPage = new SignupPage(signupWidth, signupHeight, "Signup", Status.Signup);
         PostsPage postsPage = new PostsPage(postsWidth, postsHeight, "Home", Status.MainPage);
+        ProfilePage profilePage = new ProfilePage(profileWidth, profileHeight, "User Profile", Status.Profile);
         DBHandler dbHandler = new DBHandler();
         // PostsPage postsPage = new PostsPage(postsWidth, postsHeight, "Posts Page",
         // Status.MainPage);
 
-        ControlFlow controlFlow = new ControlFlow(loginPage, signupPage, postsPage, dbHandler);
+        ControlFlow controlFlow = new ControlFlow(loginPage, signupPage, postsPage, profilePage, dbHandler);
 
         controlFlow.StartApplication();
 

@@ -59,4 +59,9 @@ public class PostsPage extends Page {
         logoutItem.addActionListener(logoutListener);
     }
 
+    public void AddProfileListener(ActionListener profileListener) {
+        profileItem.setActionCommand("Profile");
+        profileItem.addActionListener(profileListener);
+    }
+
 }

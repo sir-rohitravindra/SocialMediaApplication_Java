@@ -5,13 +5,15 @@ import javax.swing.JLabel;
 enum Status {
     Signup,
     Login,
-    MainPage
+    MainPage,
+    Profile
 }
 
 public class ControlFlow {
     private LoginPage loginPage;
     private SignupPage signupPage;
     private PostsPage postsPage;
+    private ProfilePage profilePage;
 
     private DBHandler dbHandler;
 
@@ -20,10 +22,12 @@ public class ControlFlow {
     // private Status cur_status;
     private User curUser;
 
-    public ControlFlow(LoginPage loginPage, SignupPage signupPage, PostsPage postsPage, DBHandler dbHandler) {
+    public ControlFlow(LoginPage loginPage, SignupPage signupPage, PostsPage postsPage, ProfilePage profilePage,
+            DBHandler dbHandler) {
         this.loginPage = loginPage;
         this.signupPage = signupPage;
         this.postsPage = postsPage;
+        this.profilePage = profilePage;
         this.dbHandler = dbHandler;
 
         actionListenerFactory = new ActionListenerFactory();
@@ -36,6 +40,7 @@ public class ControlFlow {
         SetupDBHandle();
         SetupSignupPage();
         SetupPostsPage();
+        SetupProfilePage();
         LoadLoginPage();
     }
 
@@ -47,12 +52,21 @@ public class ControlFlow {
     public void LoadLoginPage() {
         signupPage.deactivatePage();
         postsPage.deactivatePage();
+        profilePage.deactivatePage();
         loginPage.activatePage();
     }
 
     public void LoadPostsPage() {
         loginPage.deactivatePage();
+        profilePage.deactivatePage();
         postsPage.activatePage();
+
+    }
+
+    public void LoadProfilePage() {
+        postsPage.deactivatePage();
+        profilePage.activatePage();
+        profilePage.renderProfilePage(curUser);
     }
 
     public void SetupLoginPage() {
@@ -71,6 +85,12 @@ public class ControlFlow {
 
     public void SetupPostsPage() {
         postsPage.AddLogoutListener(actionListenerFactory.getActionListener("posts_logout"));
+        postsPage.AddProfileListener(actionListenerFactory.getActionListener("posts_profile"));
+    }
+
+    public void SetupProfilePage() {
+        profilePage.AddLogoutListener(actionListenerFactory.getActionListener("profile_logout"));
+        profilePage.AddBackHomeListener(actionListenerFactory.getActionListener("profile_back"));
     }
 
     // action Handlers
@@ -142,6 +162,25 @@ public class ControlFlow {
 
     }
 
+    class HandleProfileView implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            LoadProfilePage();
+
+        }
+
+    }
+
+    class HandleBackHome implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            LoadPostsPage();
+        }
+
+    }
+
     class ActionListenerFactory {
         ActionListener getActionListener(String Type) {
             switch (Type) {
@@ -157,6 +196,15 @@ public class ControlFlow {
 
                 case "posts_logout":
                     return new HandleBackToLogin();
+
+                case "posts_profile":
+                    return new HandleProfileView();
+
+                case "profile_logout":
+                    return new HandleBackToLogin();
+
+                case "profile_back":
+                    return new HandleBackHome();
                 default:
                     return null;
             }
