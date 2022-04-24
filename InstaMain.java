@@ -17,7 +17,7 @@ public class InstaMain {
         int postsHeight = (int) Screenheight - 100;
 
         int profileWidth = 500;
-        int profileHeight = 300;
+        int profileHeight = 500;
 
         LoginPage loginPage = new LoginPage(loginWidth, loginHeight, "Login Page", Status.Login);
         SignupPage signupPage = new SignupPage(signupWidth, signupHeight, "Signup", Status.Signup);

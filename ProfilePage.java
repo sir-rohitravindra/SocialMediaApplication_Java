@@ -51,14 +51,16 @@ public class ProfilePage extends Page {
         butJPanel.add(homeButton);
         butJPanel.add(logoutButton);
 
+        this.add(infoJPanel);
+        this.add(butJPanel);
+
     }
 
     public void renderProfilePage(User curUser) {
         setupDisplayLabels(curUser);
         // buildInfoPanel();
         this.setLayout(new GridLayout(0, 1, 0, 10));
-        this.add(infoJPanel);
-        this.add(butJPanel);
+
         this.revalidate();
         this.repaint();
 

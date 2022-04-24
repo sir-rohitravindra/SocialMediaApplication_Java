@@ -1,6 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+import java.util.List;
+import javax.swing.filechooser.*;
+import javax.imageio.ImageIO;
+import java.io.File;
 
 public class PostsPage extends Page {
 
@@ -12,13 +17,23 @@ public class PostsPage extends Page {
 
     private JMenu postContentMenu;
     private JMenu postNewItem;
-    private JMenu newImagePostItem;
-    private JMenu newTextPostItem;
+    private JMenuItem newImagePostItem;
+    private JMenuItem newTextPostItem;
+
+    private JPanel postsJPanel;
 
     private User curUser;
+    JFileChooser jfc;
+
+    private List<Post> postsList;
 
     public PostsPage(int w, int h, String headString, Status defStatus) {
         super(w, h, headString, defStatus);
+
+        postsList = new ArrayList<Post>();
+
+        jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
         menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
 
@@ -32,13 +47,17 @@ public class PostsPage extends Page {
         postNewItem = new JMenu("New Post");
         postContentMenu.add(postNewItem);
 
-        newImagePostItem = new JMenu("New Image Post");
-        newTextPostItem = new JMenu("New Text Post");
+        newImagePostItem = new JMenuItem("New Image Post");
+        newTextPostItem = new JMenuItem("New Text Post");
         postNewItem.add(newImagePostItem);
         postNewItem.add(newTextPostItem);
 
         menuBar.add(accountMenu);
         menuBar.add(postContentMenu);
+
+        postsJPanel = new JPanel();
+        postsJPanel.setLayout(new GridLayout(0, 1, 0, 10));
+        this.add(postsJPanel);
 
     }
 
@@ -62,6 +81,24 @@ public class PostsPage extends Page {
     public void AddProfileListener(ActionListener profileListener) {
         profileItem.setActionCommand("Profile");
         profileItem.addActionListener(profileListener);
+    }
+
+    public void AddNewImagePostListener(ActionListener newPostListener) {
+        System.out.println("Action Listener Added");
+        newImagePostItem.setActionCommand("ImagePost");
+        newImagePostItem.addActionListener(newPostListener);
+    }
+
+    // public void AddNewTextPostListener(ActionListener newPostListener) {
+    // newTextPostItem.setActionCommand("TextPost");
+    // newTextPostItem.addActionListener(newPostListener);
+    // }
+
+    public void RenderPosts(Post newPost) {
+        postsList.add(newPost);
+        postsJPanel.add(newPost.getPostJPanel());
+        postsJPanel.revalidate();
+        postsJPanel.repaint();
     }
 
 }
