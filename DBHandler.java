@@ -148,4 +148,8 @@ public class DBHandler {
         }
     }
 
+    public void fetchFromDB() {
+
+    }
+
 }
