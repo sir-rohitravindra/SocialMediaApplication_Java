@@ -35,15 +35,31 @@ public class ProfilePage extends Page {
         infoJPanel.setLayout(new GridLayout(0, 2, 0, 20));
 
         unameText = new JLabel("Username");
+        unameDisplay = new JLabel("Loading");
 
         nameText = new JLabel("Name");
+        nameDisplay = new JLabel("Loading");
 
         genderText = new JLabel("Gender");
+        genderDisplay = new JLabel("Loading");
 
         bioText = new JLabel("About");
+        bioDisplay = new JLabel("Loading");
 
         logoutButton = new JButton("Logout");
         homeButton = new JButton("Back to Home");
+
+        infoJPanel.add(nameText);
+        infoJPanel.add(nameDisplay);
+
+        infoJPanel.add(unameText);
+        infoJPanel.add(unameDisplay);
+
+        infoJPanel.add(genderText);
+        infoJPanel.add(genderDisplay);
+
+        infoJPanel.add(bioText);
+        infoJPanel.add(bioDisplay);
 
         butJPanel = new JPanel();
         butJPanel.setLayout(new GridLayout(0, 2, 0, 20));
@@ -69,22 +85,17 @@ public class ProfilePage extends Page {
     public void setupDisplayLabels(User curUser) {
 
         System.out.println("Profile : " + curUser);
-        unameDisplay = new JLabel(curUser.getUsername());
-        nameDisplay = new JLabel(curUser.getName());
-        genderDisplay = new JLabel(curUser.getGender());
-        bioDisplay = new JLabel(curUser.getBio());
+        // unameDisplay = new JLabel(curUser.getUsername());
+        unameDisplay.setText(curUser.getUsername());
 
-        infoJPanel.add(nameText);
-        infoJPanel.add(nameDisplay);
+        // nameDisplay = new JLabel(curUser.getName());
+        nameDisplay.setText(curUser.getName());
 
-        infoJPanel.add(unameText);
-        infoJPanel.add(unameDisplay);
+        // genderDisplay = new JLabel(curUser.getGender());
+        genderDisplay.setText(curUser.getGender());
 
-        infoJPanel.add(genderText);
-        infoJPanel.add(genderDisplay);
-
-        infoJPanel.add(bioText);
-        infoJPanel.add(bioDisplay);
+        // bioDisplay = new JLabel(curUser.getBio());
+        bioDisplay.setText(curUser.getBio());
 
     }
 
