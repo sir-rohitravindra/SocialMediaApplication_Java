@@ -20,6 +20,7 @@ public class PostsPage extends Page {
     private JMenuItem newImagePostItem;
     private JMenuItem newTextPostItem;
 
+    private JScrollPane postsJScrollPane;
     private JPanel postsJPanel;
 
     private User curUser;
@@ -57,7 +58,8 @@ public class PostsPage extends Page {
 
         postsJPanel = new JPanel();
         postsJPanel.setLayout(new GridLayout(0, 1, 0, 10));
-        this.add(postsJPanel);
+        postsJScrollPane = new JScrollPane(postsJPanel);
+        this.add(postsJScrollPane);
 
     }
 
