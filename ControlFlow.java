@@ -1,6 +1,8 @@
 import java.awt.event.*;
 
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 enum Status {
     Signup,
@@ -86,6 +88,7 @@ public class ControlFlow {
     public void SetupPostsPage() {
         postsPage.AddLogoutListener(actionListenerFactory.getActionListener("posts_logout"));
         postsPage.AddProfileListener(actionListenerFactory.getActionListener("posts_profile"));
+        postsPage.AddNewImagePostListener(actionListenerFactory.getActionListener("new_post"));
     }
 
     public void SetupProfilePage() {
@@ -181,6 +184,52 @@ public class ControlFlow {
 
     }
 
+    class HandleNewPost implements ActionListener {
+
+        JFileChooser jfc = postsPage.jfc;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (e.getActionCommand().equals("ImagePost")) {
+
+                System.out.println("Generating new Image Post");
+                postsPage.jfc.setAcceptAllFileFilterUsed(false);
+
+                // set a title for the dialog
+                postsPage.jfc.setDialogTitle("Select a image file");
+
+                // only allow files of .txt extension
+
+                int r = postsPage.jfc.showOpenDialog(null);
+                if (r == JFileChooser.APPROVE_OPTION) {
+
+                    String path = postsPage.jfc.getSelectedFile().getAbsolutePath();
+
+                    try {
+                        String paths[] = path.split("'\'");
+                        String title = paths[paths.length - 1];
+                        System.out.println(path + ":" + title);
+                        Post newPost = new ImagePost(title, curUser);
+                        newPost.setPostContent(path);
+                        newPost.buildpost();
+
+                        postsPage.RenderPosts(newPost);
+                    } catch (Exception ex) {
+                        System.out.println("ControlFlow.HandleNewPost.actionPerformed failed");
+                        System.out.println(ex);
+                    }
+
+                }
+
+            } else {
+                System.out.println("new text post");
+            }
+
+        }
+
+    }
+
     class ActionListenerFactory {
         ActionListener getActionListener(String Type) {
             switch (Type) {
@@ -205,6 +254,9 @@ public class ControlFlow {
 
                 case "profile_back":
                     return new HandleBackHome();
+
+                case "new_post":
+                    return new HandleNewPost();
                 default:
                     return null;
             }
