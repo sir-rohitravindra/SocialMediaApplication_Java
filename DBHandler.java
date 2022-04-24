@@ -41,7 +41,7 @@ public class DBHandler {
 
     }
 
-    public void insertToDB(User user) {
+    public void insertUserToDB(User user) {
 
         try {
 
@@ -125,4 +125,27 @@ public class DBHandler {
         }
         return curUser;
     }
+
+    public void insertPostToDB(Post post, String type) {
+
+        try {
+
+            stmt = c.createStatement();
+            String title = post.getTitle();
+            String content = post.getContent();
+            String postedby = post.getPostedBy();
+
+            String query = "INSERT INTO posts (title,type,content,postedby) "
+                    + "VALUES" + "( '" + title + "','" + type + "','" + content + "','" + postedby + "');";
+            stmt.executeUpdate(query);
+            stmt.close();
+            // c.commit();
+            System.out.println("Insert Post Success");
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("model.insertToDB() failed");
+        }
+    }
+
 }

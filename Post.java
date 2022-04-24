@@ -7,6 +7,7 @@ public abstract class Post {
     protected JLabel postTitle;
     protected JLabel postContent;
     protected JLabel postedBy;
+    protected String postContentString;
 
     public Post(String title, User user) {
         postPanel = new JPanel();
@@ -27,4 +28,17 @@ public abstract class Post {
     }
 
     abstract public void setPostContent(String content);
+
+    public String getTitle() {
+        return this.postTitle.getText();
+    };
+
+    public String getContent() {
+        return this.postContentString;
+    };
+
+    public String getPostedBy() {
+        return this.postedBy.getText().substring(11);
+    };
+
 }
