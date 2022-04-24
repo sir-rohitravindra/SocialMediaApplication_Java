@@ -132,7 +132,7 @@ public class ControlFlow {
             User user = signupPage.getUserDetails();
 
             if (!dbHandler.VerifyLogin(user)) {
-                dbHandler.insertToDB(user);
+                dbHandler.insertUserToDB(user);
                 LoadLoginPage();
             } else {
                 signupPage.formJPanel.add(new JLabel("Signup Failed, Account Exists!"));
@@ -215,6 +215,9 @@ public class ControlFlow {
                         newPost.buildpost();
 
                         postsPage.RenderPosts(newPost);
+
+                        dbHandler.insertPostToDB(newPost, "img");
+
                     } catch (Exception ex) {
                         System.out.println("ControlFlow.HandleNewPost.actionPerformed failed");
                         System.out.println(ex);

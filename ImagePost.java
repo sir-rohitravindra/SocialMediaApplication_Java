@@ -16,6 +16,7 @@ public class ImagePost extends Post {
     public void setPostContent(String content) {
         String correctPath = content.replace("\\", "\\\\");
         System.out.println("Corrected Path: " + correctPath);
+        this.postContentString = correctPath;
         try {
             myPicture = ImageIO.read(new File(correctPath));
             this.postContent = new JLabel(new ImageIcon(myPicture));
