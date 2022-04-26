@@ -1,7 +1,10 @@
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+
+import java.util.*;
 // import javax.swing.filechooser.FileNameExtensionFilter;
 
 enum Status {
@@ -108,13 +111,19 @@ public class ControlFlow {
         public void actionPerformed(ActionEvent e) {
 
             User user = loginPage.getUserDetails();
+
             if (dbHandler.VerifyLogin(user)) {
                 // loginPage.butJPanel.add(new JLabel("Login Successfull!"));
                 // loginPage.revalidate();
                 // loginPage.repaint();
+                List<Post> fetched = new ArrayList<Post>();
                 LoadPostsPage();
                 curUser = dbHandler.getAccount(user.getUsername());
                 postsPage.setCurUser(curUser);
+                fetched = dbHandler.fetchPostsFromDB();
+                for (Post post : fetched) {
+                    postsPage.RenderPosts(post);
+                }
 
             } else {
                 loginPage.butJPanel.add(new JLabel("Login Failed!"));

@@ -16,13 +16,13 @@ public class ImagePost extends Post {
     public void setPostContent(String content) {
         String correctPath = content.replace("\\", "\\\\");
         System.out.println("Corrected Path: " + correctPath);
-        this.postContentString = correctPath;
+        this.postContentString = content;
         try {
             myPicture = ImageIO.read(new File(correctPath));
             this.postContent = new JLabel(new ImageIcon(myPicture));
 
         } catch (Exception ex) {
-            // TODO: handle exception
+            System.out.print("ImagePost.setPostContent failed ");
             System.out.println(ex);
         }
     }

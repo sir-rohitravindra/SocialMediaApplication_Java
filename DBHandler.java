@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.*;
 
 public class DBHandler {
 
@@ -146,6 +148,48 @@ public class DBHandler {
             System.out.println(e);
             System.out.println("model.insertToDB() failed");
         }
+    }
+
+    public List<Post> fetchPostsFromDB() {
+
+        List<Post> fetched = new ArrayList<Post>();
+        User curUser;
+        Post fetchedPost;
+        try {
+
+            String title = "";
+            String content = "";
+            String type = "";
+            String postedby = "";
+
+            stmt = c.createStatement();
+            String query = "select * from posts;";
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+
+                title = rs.getString("title");
+                content = rs.getString("content");
+                type = rs.getString("type");
+                postedby = rs.getString("postedby");
+                curUser = userBuilder.cleanSlate().setUsername(postedby).buildUser();
+                if (type.equals("img")) {
+                    fetchedPost = new ImagePost(title, curUser);
+                    fetchedPost.setPostContent(content);
+                    fetchedPost.buildpost();
+                    fetched.add(fetchedPost);
+                }
+
+            }
+            System.out.println("Fetch Post Success!");
+
+        } catch (Exception e) {
+
+            System.out.println("DBHandler.getAccount failed! " + e);
+        }
+
+        return fetched;
+
     }
 
 }
