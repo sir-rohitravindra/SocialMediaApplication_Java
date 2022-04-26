@@ -1,9 +1,13 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.awt.image.BufferedImage;
 
 public class ProfilePage extends Page {
 
+    JLabel profileImageDisplay;
     // username text
     JLabel unameText;
     JLabel unameDisplay;
@@ -27,12 +31,22 @@ public class ProfilePage extends Page {
     // Navigate Buttons
     JButton logoutButton;
     JButton homeButton;
+    private String imgPath;
+    private BufferedImage myPicture;
 
     public ProfilePage(int w, int h, String headString, Status defStatus) {
         super(w, h, headString, defStatus);
 
+        imgPath = "C:\\Users\\rohit\\OneDrive\\Desktop\\PES Sem6\\OOAD\\InstagramClone\\UserImage.png";
+
+        try {
+            myPicture = ImageIO.read(new File(imgPath));
+            profileImageDisplay = new JLabel(new ImageIcon(myPicture));
+        } catch (Exception e) {
+        }
+
         infoJPanel = new JPanel();
-        infoJPanel.setLayout(new GridLayout(0, 2, 0, 20));
+        infoJPanel.setLayout(new GridLayout(0, 2, 0, 10));
 
         unameText = new JLabel("Username");
         unameDisplay = new JLabel("Loading");
@@ -49,6 +63,7 @@ public class ProfilePage extends Page {
         logoutButton = new JButton("Logout");
         homeButton = new JButton("Back to Home");
 
+        infoJPanel.add(profileImageDisplay);
         infoJPanel.add(nameText);
         infoJPanel.add(nameDisplay);
 
