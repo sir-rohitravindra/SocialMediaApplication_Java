@@ -9,12 +9,21 @@ public class DBHandler {
     private ResultSet rs;
     private UserBuilder userBuilder;
     private PostsFactory postsFactory;
+    private static DBHandler singleDBHandler;
 
-    public DBHandler() {
+    private DBHandler() {
         userBuilder = new UserBuilder();
         postsFactory = new PostsFactory();
         System.out.println("DB Handler is up!");
 
+    }
+
+    static DBHandler getDBInstance() {
+        if (singleDBHandler == null) {
+            singleDBHandler = new DBHandler();
+        }
+
+        return singleDBHandler;
     }
 
     public void connectToDB() {

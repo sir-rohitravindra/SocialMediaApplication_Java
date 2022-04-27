@@ -23,7 +23,9 @@ public class InstaMain {
         SignupPage signupPage = new SignupPage(signupWidth, signupHeight, "Signup", Status.Signup);
         PostsPage postsPage = new PostsPage(postsWidth, postsHeight, "Home", Status.MainPage);
         ProfilePage profilePage = new ProfilePage(profileWidth, profileHeight, "User Profile", Status.Profile);
-        DBHandler dbHandler = new DBHandler();
+        // DBHandler dbHandler = new DBHandler();
+
+        DBHandler dbHandler = DBHandler.getDBInstance();
         // PostsPage postsPage = new PostsPage(postsWidth, postsHeight, "Posts Page",
         // Status.MainPage);
 
