@@ -23,6 +23,7 @@ public class ControlFlow {
     private DBHandler dbHandler;
 
     private ActionListenerFactory actionListenerFactory;
+    private PostsFactory postsFactory;
 
     // private Status cur_status;
     private User curUser;
@@ -36,6 +37,7 @@ public class ControlFlow {
         this.dbHandler = dbHandler;
 
         actionListenerFactory = new ActionListenerFactory();
+        postsFactory = new PostsFactory();
 
     }
 
@@ -49,6 +51,7 @@ public class ControlFlow {
         LoadLoginPage();
     }
 
+    // routing
     public void LoadSignupPage() {
         loginPage.deactivatePage();
         signupPage.activatePage();
@@ -73,6 +76,8 @@ public class ControlFlow {
         profilePage.activatePage();
         profilePage.renderProfilePage(curUser);
     }
+
+    // Adding Action Listeners
 
     public void SetupLoginPage() {
         loginPage.AddLoginListener(actionListenerFactory.getActionListener("login_login"));
@@ -99,12 +104,15 @@ public class ControlFlow {
         profilePage.AddBackHomeListener(actionListenerFactory.getActionListener("profile_back"));
     }
 
-    // action Handlers
+    // The Action Handlers
     //
 
     //
 
-    //
+    // On login button click:(Login Page)
+    // Verify if entered credentials are correct
+    // Fetch stored posts from db
+    // Render these posts
     class HandleLoginListener implements ActionListener {
 
         @Override
@@ -134,6 +142,10 @@ public class ControlFlow {
 
     }
 
+    // On create account (Signup Page)
+    // Check if username exists
+    // if not insert to db
+    // else throw login error
     class CreateAccountListener implements ActionListener {
 
         @Override
@@ -152,6 +164,7 @@ public class ControlFlow {
 
     }
 
+    // On back to login button click (Signup Page)
     class HandleBackToLogin implements ActionListener {
 
         @Override
@@ -164,6 +177,7 @@ public class ControlFlow {
 
     }
 
+    // On signup account button click (Login page)
     class HandleSignupListener implements ActionListener {
 
         @Override
@@ -174,6 +188,7 @@ public class ControlFlow {
 
     }
 
+    // On view profile menu click (Posts Page menu)
     class HandleProfileView implements ActionListener {
 
         @Override
@@ -184,6 +199,7 @@ public class ControlFlow {
 
     }
 
+    // On back to posts page (Profile Page)
     class HandleBackHome implements ActionListener {
 
         @Override
@@ -193,6 +209,8 @@ public class ControlFlow {
 
     }
 
+    // On create new Post (Posts page menu)
+    // check if type is image or text
     class HandleNewPost implements ActionListener {
 
         JFileChooser jfc = postsPage.jfc;
@@ -208,8 +226,6 @@ public class ControlFlow {
                 // set a title for the dialog
                 postsPage.jfc.setDialogTitle("Select a image file");
 
-                // only allow files of .txt extension
-
                 int r = postsPage.jfc.showOpenDialog(null);
                 if (r == JFileChooser.APPROVE_OPTION) {
 
@@ -219,9 +235,11 @@ public class ControlFlow {
                         String paths[] = path.split("'\'");
                         String title = paths[paths.length - 1];
                         System.out.println(path + ":" + title);
-                        Post newPost = new ImagePost(title, curUser);
-                        newPost.setPostContent(path);
-                        newPost.buildpost();
+                        // Post newPost = new ImagePost(title, curUser);
+                        // newPost.setPostContent(path);
+                        // newPost.buildpost();
+
+                        Post newPost = postsFactory.getPost("Image_Post", title, curUser, path);
 
                         postsPage.RenderPosts(newPost);
 
@@ -234,8 +252,10 @@ public class ControlFlow {
 
                 }
 
+            } else if (e.getActionCommand().equals("TextPost")) {
+                System.out.println("Generating new Text post");
             } else {
-                System.out.println("new text post");
+                System.err.println("Invalid Post Type");
             }
 
         }
