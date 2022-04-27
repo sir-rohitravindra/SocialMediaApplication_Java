@@ -97,6 +97,7 @@ public class ControlFlow {
         postsPage.AddLogoutListener(actionListenerFactory.getActionListener("posts_logout"));
         postsPage.AddProfileListener(actionListenerFactory.getActionListener("posts_profile"));
         postsPage.AddNewImagePostListener(actionListenerFactory.getActionListener("new_post"));
+        postsPage.AddNewTextPostListener(actionListenerFactory.getActionListener("new_post"));
     }
 
     public void SetupProfilePage() {
@@ -254,6 +255,10 @@ public class ControlFlow {
 
             } else if (e.getActionCommand().equals("TextPost")) {
                 System.out.println("Generating new Text post");
+                Post newPost = postsFactory.getPost("txt", "Dummy To Be replaced", curUser, "Dummy Text");
+                postsPage.RenderPosts(newPost);
+
+                dbHandler.insertPostToDB(newPost, "txt");
             } else {
                 System.err.println("Invalid Post Type");
             }

@@ -91,10 +91,10 @@ public class PostsPage extends Page {
         newImagePostItem.addActionListener(newPostListener);
     }
 
-    // public void AddNewTextPostListener(ActionListener newPostListener) {
-    // newTextPostItem.setActionCommand("TextPost");
-    // newTextPostItem.addActionListener(newPostListener);
-    // }
+    public void AddNewTextPostListener(ActionListener newPostListener) {
+        newTextPostItem.setActionCommand("TextPost");
+        newTextPostItem.addActionListener(newPostListener);
+    }
 
     public void RenderPosts(Post newPost) {
         postsList.add(newPost);
