@@ -7,12 +7,12 @@ public class PostsFactory {
     public Post getPost(String type, String title, User user, String content) {
         Post newPost = null;
         switch (type) {
-            case "Image_Post": {
+            case "img": {
                 newPost = new ImagePost(title, user);
                 break;
 
             }
-            case "Text_Post": {
+            case "txt": {
                 newPost = new TextPost(title, user);
                 break;
             }

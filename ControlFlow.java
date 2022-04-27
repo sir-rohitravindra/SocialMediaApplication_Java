@@ -152,7 +152,7 @@ public class ControlFlow {
         public void actionPerformed(ActionEvent e) {
             User user = signupPage.getUserDetails();
 
-            if (!dbHandler.VerifyLogin(user)) {
+            if (!dbHandler.CheckUserExists(user)) {
                 dbHandler.insertUserToDB(user);
                 LoadLoginPage();
             } else {
@@ -239,7 +239,7 @@ public class ControlFlow {
                         // newPost.setPostContent(path);
                         // newPost.buildpost();
 
-                        Post newPost = postsFactory.getPost("Image_Post", title, curUser, path);
+                        Post newPost = postsFactory.getPost("img", title, curUser, path);
 
                         postsPage.RenderPosts(newPost);
 
