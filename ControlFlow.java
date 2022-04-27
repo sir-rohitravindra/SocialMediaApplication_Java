@@ -239,7 +239,7 @@ public class ControlFlow {
                         // newPost.setPostContent(path);
                         // newPost.buildpost();
 
-                        Post newPost = postsFactory.getPost("Image_Post", title, curUser, path);
+                        Post newPost = postsFactory.getPost("img", title, curUser, path);
 
                         postsPage.RenderPosts(newPost);
 

@@ -8,9 +8,11 @@ public class DBHandler {
     private Connection c;
     private ResultSet rs;
     private UserBuilder userBuilder;
+    private PostsFactory postsFactory;
 
     public DBHandler() {
         userBuilder = new UserBuilder();
+        postsFactory = new PostsFactory();
         System.out.println("DB Handler is up!");
 
     }
@@ -81,6 +83,33 @@ public class DBHandler {
 
             String query = "select * from users where uname = '" + uname + "' and password = '" + password
                     + "';";
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                exists = true;
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("DBHandler.VerifyLogin error\n" + e);
+        }
+
+        return exists;
+
+    }
+
+    public boolean CheckUserExists(User user) {
+
+        boolean exists = false;
+        try {
+            // System.out.println(user);
+            stmt = c.createStatement();
+            String uname = user.getUsername();
+            // String password = user.getPassword();
+
+            // System.out.println(uname + " " + password);
+
+            String query = "select * from users where uname = '" + uname + "';";
             rs = stmt.executeQuery(query);
 
             while (rs.next()) {
@@ -173,12 +202,14 @@ public class DBHandler {
                 type = rs.getString("type");
                 postedby = rs.getString("postedby");
                 curUser = userBuilder.cleanSlate().setUsername(postedby).buildUser();
-                if (type.equals("img")) {
-                    fetchedPost = new ImagePost(title, curUser);
-                    fetchedPost.setPostContent(content);
-                    fetchedPost.buildpost();
-                    fetched.add(fetchedPost);
-                }
+                // if (type.equals("img")) {
+                // fetchedPost = new ImagePost(title, curUser);
+                // fetchedPost.setPostContent(content);
+                // fetchedPost.buildpost();
+                // fetched.add(fetchedPost);
+                // }
+                fetchedPost = postsFactory.getPost(type, title, curUser, content);
+                fetched.add(fetchedPost);
 
             }
             System.out.println("Fetch Post Success!");
