@@ -152,7 +152,7 @@ public class ControlFlow {
         public void actionPerformed(ActionEvent e) {
             User user = signupPage.getUserDetails();
 
-            if (!dbHandler.VerifyLogin(user)) {
+            if (!dbHandler.CheckUserExists(user)) {
                 dbHandler.insertUserToDB(user);
                 LoadLoginPage();
             } else {

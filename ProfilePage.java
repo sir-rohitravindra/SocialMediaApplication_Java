@@ -63,7 +63,7 @@ public class ProfilePage extends Page {
         logoutButton = new JButton("Logout");
         homeButton = new JButton("Back to Home");
 
-        infoJPanel.add(profileImageDisplay);
+        // infoJPanel.add(profileImageDisplay);
         infoJPanel.add(nameText);
         infoJPanel.add(nameDisplay);
 
