@@ -57,7 +57,7 @@ public class PostsPage extends Page {
         menuBar.add(postContentMenu);
 
         postsJPanel = new JPanel();
-        postsJPanel.setLayout(new GridLayout(0, 1, 0, 10));
+        postsJPanel.setLayout(new GridLayout(0, 1, 0, 0));
         postsJScrollPane = new JScrollPane(postsJPanel);
         this.add(postsJScrollPane);
 
@@ -99,6 +99,20 @@ public class PostsPage extends Page {
     public void RenderPosts(Post newPost) {
         postsList.add(newPost);
         postsJPanel.add(newPost.getPostJPanel());
+        postsJPanel.revalidate();
+        postsJPanel.repaint();
+    }
+
+    public void cleanPage() {
+        Component[] componentList = postsJPanel.getComponents();
+
+        // Loop through the components
+        for (Component c : componentList) {
+
+            postsJPanel.remove(c);
+
+        }
+
         postsJPanel.revalidate();
         postsJPanel.repaint();
     }

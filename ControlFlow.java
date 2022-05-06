@@ -19,6 +19,7 @@ public class ControlFlow {
     private SignupPage signupPage;
     private PostsPage postsPage;
     private ProfilePage profilePage;
+    private TextPostDialogPage textPostDialogPage;
 
     private DBHandler dbHandler;
 
@@ -29,11 +30,13 @@ public class ControlFlow {
     private User curUser;
 
     public ControlFlow(LoginPage loginPage, SignupPage signupPage, PostsPage postsPage, ProfilePage profilePage,
+            TextPostDialogPage textPostDialogPage,
             DBHandler dbHandler) {
         this.loginPage = loginPage;
         this.signupPage = signupPage;
         this.postsPage = postsPage;
         this.profilePage = profilePage;
+        this.textPostDialogPage = textPostDialogPage;
         this.dbHandler = dbHandler;
 
         actionListenerFactory = new ActionListenerFactory();
@@ -61,18 +64,26 @@ public class ControlFlow {
         signupPage.deactivatePage();
         postsPage.deactivatePage();
         profilePage.deactivatePage();
+        textPostDialogPage.deactivatePage();
         loginPage.activatePage();
     }
 
     public void LoadPostsPage() {
         loginPage.deactivatePage();
         profilePage.deactivatePage();
+        textPostDialogPage.deactivatePage();
         postsPage.activatePage();
+
+    }
+
+    public void LoadTextPostCreationDialog() {
+        textPostDialogPage.activatePage();
 
     }
 
     public void LoadProfilePage() {
         postsPage.deactivatePage();
+        textPostDialogPage.deactivatePage();
         profilePage.activatePage();
         profilePage.renderProfilePage(curUser);
     }
@@ -98,6 +109,7 @@ public class ControlFlow {
         postsPage.AddProfileListener(actionListenerFactory.getActionListener("posts_profile"));
         postsPage.AddNewImagePostListener(actionListenerFactory.getActionListener("new_post"));
         postsPage.AddNewTextPostListener(actionListenerFactory.getActionListener("new_post"));
+        textPostDialogPage.SetOnPostActionListener(actionListenerFactory.getActionListener("text_dialog_post"));
     }
 
     public void SetupProfilePage() {
@@ -130,6 +142,7 @@ public class ControlFlow {
                 curUser = dbHandler.getAccount(user.getUsername());
                 postsPage.setCurUser(curUser);
                 fetched = dbHandler.fetchPostsFromDB();
+                postsPage.cleanPage();
                 for (Post post : fetched) {
                     postsPage.RenderPosts(post);
                 }
@@ -254,15 +267,37 @@ public class ControlFlow {
                 }
 
             } else if (e.getActionCommand().equals("TextPost")) {
-                System.out.println("Generating new Text post");
-                Post newPost = postsFactory.getPost("txt", "Dummy To Be replaced", curUser, "Dummy Text");
-                postsPage.RenderPosts(newPost);
 
-                dbHandler.insertPostToDB(newPost, "txt");
+                System.out.println("Generating new Text post");
+
+                // textPostDialogPage.SetOnPostActionListener(actionListenerFactory.getActionListener("text_dialog_post"));
+                LoadTextPostCreationDialog();
+                // Post newPost = postsFactory.getPost("txt", "Dummy To Be replaced", curUser,
+                // "Dummy Text");
+                // postsPage.RenderPosts(newPost);
+
+                // dbHandler.insertPostToDB(newPost, "txt");
             } else {
                 System.err.println("Invalid Post Type");
             }
 
+        }
+
+    }
+
+    class DialogCreateTextPost implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String title = textPostDialogPage.getTitle();
+            String content = textPostDialogPage.getContent();
+
+            Post newPost = postsFactory.getPost("txt", title, curUser, content);
+            postsPage.RenderPosts(newPost);
+
+            dbHandler.insertPostToDB(newPost, "txt");
+            textPostDialogPage.deactivatePage();
         }
 
     }
@@ -294,6 +329,8 @@ public class ControlFlow {
 
                 case "new_post":
                     return new HandleNewPost();
+                case "text_dialog_post":
+                    return new DialogCreateTextPost();
                 default:
                     return null;
             }

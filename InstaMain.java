@@ -23,13 +23,16 @@ public class InstaMain {
         SignupPage signupPage = new SignupPage(signupWidth, signupHeight, "Signup", Status.Signup);
         PostsPage postsPage = new PostsPage(postsWidth, postsHeight, "Home", Status.MainPage);
         ProfilePage profilePage = new ProfilePage(profileWidth, profileHeight, "User Profile", Status.Profile);
+        TextPostDialogPage textPostDialogPage = new TextPostDialogPage(300, 300, "New Text Post",
+                Status.MainPage);
         // DBHandler dbHandler = new DBHandler();
 
         DBHandler dbHandler = DBHandler.getDBInstance();
         // PostsPage postsPage = new PostsPage(postsWidth, postsHeight, "Posts Page",
         // Status.MainPage);
 
-        ControlFlow controlFlow = new ControlFlow(loginPage, signupPage, postsPage, profilePage, dbHandler);
+        ControlFlow controlFlow = new ControlFlow(loginPage, signupPage, postsPage, profilePage, textPostDialogPage,
+                dbHandler);
 
         controlFlow.StartApplication();
 

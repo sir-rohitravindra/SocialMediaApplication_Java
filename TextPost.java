@@ -9,7 +9,7 @@ public class TextPost extends Post {
     @Override
     public void setPostContent(String content) {
         this.postContent = new JLabel(content);
-
+        this.postContentString = content;
     }
 
 }

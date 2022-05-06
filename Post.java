@@ -11,7 +11,8 @@ public abstract class Post {
 
     public Post(String title, User user) {
         postPanel = new JPanel();
-        postPanel.setLayout(new GridLayout(0, 1, 0, 10));
+        // postPanel.setLayout(new GridLayout(0, 1, 0, 10));
+        postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS));
         postTitle = new JLabel(title);
         String postedByString = "Posted by: " + user.getUsername();
         postedBy = new JLabel(postedByString);
